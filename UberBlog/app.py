@@ -25,3 +25,5 @@ with st.sidebar:
     # Submit button
     submit_button = st.button("Générer le blog")
 
+if submit_button:
+    st.image(" ")
