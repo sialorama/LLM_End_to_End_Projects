@@ -22,8 +22,15 @@ with st.sidebar:
     num_words = st.slider("Nombre de mots", min_value=250, max_value=1000, step=250)
     # Number pf images
     num_images = st.number_input("Nombre d'images", min_value=1, max_value=5, step=1)
+
+    prompt_parts = [
+        f"Generate a comprehensive, engaging blog post relevant to the given title \"{blog_title}\" and keywords in the blog post\"    \".Make sure to incorporate these keywords in the blog post. The blog should be approximately 500 words.
+    ]
     # Submit button
     submit_button = st.button("Générer le blog")
 
 if submit_button:
-    st.image(" ")
+    # st.image(" ")
+
+
+    st.write(response.text)
