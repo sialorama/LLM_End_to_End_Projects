@@ -98,8 +98,9 @@ if submit_button:
         new_image["img"] = image_response.data[0].url
         images_gallery.append(new_image)
 
+    # Images generated
     st.title("Image(s) proposées :")
     carousel(items=images_gallery, width=1)
-    
+    # Post generated
     st.title("Votre article :")
     st.write(response)
