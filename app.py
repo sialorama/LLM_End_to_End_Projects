@@ -2,9 +2,16 @@ import streamlit as st
 import google.generativeai as genai
 from apikey import google_gemini_api_key, openai_api_key
 from openai import OpenAI
-
+from streamlit_carousel import carousel
 genai.configure(api_key=google_gemini_api_key)
 client = OpenAI(api_key=openai_api_key)
+
+single_image = dict(
+    title="",
+    text="",
+    interval=None,
+    img=""
+)
 
 # Set up the model
 generation_config = {
@@ -69,21 +76,30 @@ with st.sidebar:
     submit_button = st.button("Générer le blog")
 
 if submit_button:
-
+        
     response = model.generate_content(prompt_parts)
-    
-    
-    # st.image("https://oaidalleapiproduscus.blob.core.windows.net/private/org-")
-    image_response = client.images.generate(
-    model="dall-e-3",
-    prompt="a white siamese cat",
-    size="1024x1024",
-    quality="standard",
-    n=1,
-    )
-    image_url = image_response.data[0].url
 
-    st.image(image_url, caption="Generated Image")
+    # list of images created
+    # images = []
+    images_gallery=[]
 
-    st.title("VOTRE ARTICLE :")
+    # loop to create the number of images selected by user
+    for i in range (num_images):
+        image_response = client.images.generate(
+        model="dall-e-3",
+        prompt= f"Générer un article sur le thème : {blog_title}",
+        size="1024x1024",
+        quality="standard",
+        n=1,
+        )
+        new_image = single_image.copy() 
+        new_image["title"] = f"Image {i+1}"
+        new_image["text"] = f"{blog_title}"
+        new_image["img"] = image_response.data[0].url
+        images_gallery.append(new_image)
+
+    st.title("Image(s) proposées :")
+    carousel(items=images_gallery, width=1)
+    
+    st.title("Votre article :")
     st.write(response)
