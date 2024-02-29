@@ -1,1 +1,4 @@
+openai==1.13.3
+protobuf==4.25.3
 streamlit==1.31.1
+streamlit_carousel==0.0.4
