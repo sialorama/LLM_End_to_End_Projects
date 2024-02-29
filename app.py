@@ -70,7 +70,7 @@ with st.sidebar:
 
 if submit_button:
 
-    # response = model.generate_content(prompt_parts)
+    response = model.generate_content(prompt_parts)
     
     
     # st.image("https://oaidalleapiproduscus.blob.core.windows.net/private/org-")
@@ -86,4 +86,4 @@ if submit_button:
     st.image(image_url, caption="Generated Image")
 
     st.title("VOTRE ARTICLE :")
-    # st.write(response)
+    st.write(response)
