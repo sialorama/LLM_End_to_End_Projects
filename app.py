@@ -1,8 +1,10 @@
 import streamlit as st
 import google.generativeai as genai
-from apikey import google_gemini_api_key
+from apikey import google_gemini_api_key, openai_api_key
+from openai import OpenAI
 
 genai.configure(api_key=google_gemini_api_key)
+client = OpenAI(api_key=openai_api_key)
 
 # Set up the model
 generation_config = {
@@ -13,23 +15,23 @@ generation_config = {
 }
 
 safety_setting  = [
-{
+    {
     "category": "HARM_CATEGORY_HARASSMENT",
     "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-},
-{
+    },
+    {
     "category": "HARM_CATEGORY_HATE_SPEECH",
     "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-},
-{
+    },
+    {
     "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
     "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-},
-{
+    },
+    {
     "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
     "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-}
-]
+    }
+    ]
 
 # setting up our model
 model = genai.GenerativeModel(model_name="gemini-pro",
@@ -58,16 +60,30 @@ with st.sidebar:
     num_words = st.slider("Nombre de mots", min_value=250, max_value=1000, step=250)
     # Number pf images
     num_images = st.number_input("Nombre d'images", min_value=1, max_value=5, step=1)
-
+    # prompt parts gived by user
     prompt_parts = [
         (f"Generate a comprehensive, engaging blog post relevant to the given title \"{blog_title}\" and keywords in the blog post\"{keywords} \".Make sure to incorporate these keywords in the blog post. The blog should be approximately {num_words} words.")
-    ]
-    response = model.generate_content(prompt_parts)
+        ]
+
     # Submit button
     submit_button = st.button("Générer le blog")
 
 if submit_button:
+
+    # response = model.generate_content(prompt_parts)
+    
+    
     # st.image("https://oaidalleapiproduscus.blob.core.windows.net/private/org-")
+    image_response = client.images.generate(
+    model="dall-e-3",
+    prompt="a white siamese cat",
+    size="1024x1024",
+    quality="standard",
+    n=1,
+    )
+    image_url = image_response.data[0].url
 
+    st.image(image_url, caption="Generated Image")
 
-    st.write(response)
+    st.title("VOTRE ARTICLE :")
+    # st.write(response)
