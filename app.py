@@ -101,6 +101,7 @@ if submit_button:
     # Images generated
     st.title("Image(s) proposées :")
     carousel(items=images_gallery, width=1)
+    
     # Post generated
     st.title("Votre article :")
     st.write(response)
