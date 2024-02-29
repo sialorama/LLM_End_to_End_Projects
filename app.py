@@ -6,6 +6,7 @@ from streamlit_carousel import carousel
 genai.configure(api_key=google_gemini_api_key)
 client = OpenAI(api_key=openai_api_key)
 
+# dictionary for the carousel
 single_image = dict(
     title="",
     text="",
@@ -78,7 +79,6 @@ with st.sidebar:
 if submit_button:
         
     response = model.generate_content(prompt_parts)
-
     # list of images created
     # images = []
     images_gallery=[]
